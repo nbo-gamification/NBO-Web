@@ -1,0 +1,92 @@
+{% extends "header.html" %}
+{% load static %}
+{% load icons %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row justify-content-center">
+        <div class="col-6">
+            <div class="input-group">
+                <input class="form-control border-secondary py-2" type="search" value="search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">
+                        {% icon 'fas fa-search' %}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'create_player' %}">
+	        <button class="btn btn-primary float-right">Add Player</button>
+	    </a>
+	</div>
+</div>
+<div class="container">
+	<br>
+	{% for player in players %}
+	<div class="row">
+		<div class="col">
+		  <div class="card">
+		    <div class="card-body">
+		    	<div class="row">
+			    	<div class="col-md-3">
+			    		<p>{{player.first_name}} {{player.last_name}}</p>
+			    	</div>
+			    	<div class="col">
+			    		<p>{{player.rol_name}}</p>
+			    	</div>
+			    	<div class="col-md-3">
+			    		<p><b>10</b> pts</p>
+			    	</div>
+			    </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	{% endfor %}
+	
+{% if is_paginated %}
+<hr>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %}
+          <!-- If it ain't a search result display, don't append the search query
+               to the URL. -->
+          {% if not search %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+          </li>
+          {% else %}
+          <!-- Append the searched query to the URL, so that on a search results page,
+               the pagination don't revert to listing all the listview items. -->
+            <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        {% endif %} 
+        {% for object in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="{% url 'players' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+        {% endfor %} 
+        {% if page_obj.has_next %}
+          {% if not search %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+</div>
+{% endblock %}

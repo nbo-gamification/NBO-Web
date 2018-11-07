@@ -4,10 +4,11 @@ from django.conf.urls import (
 )
 from django.views.generic.base import RedirectView
 from onboarding.views import (
-    HomeView
+	PlayersCreateView,
+    PlayersView,
 )
 
 urlpatterns = [
-    url(r'home/$', HomeView.as_view(), name='home'),
-    url(r'', RedirectView.as_view(pattern_name='home'), name='root'),
+    url(r'players/$', PlayersView.as_view(), name='players'),
+    url(r'players/create$', PlayersCreateView.as_view(), name='create_player'),
 ]
