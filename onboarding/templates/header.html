@@ -1,0 +1,47 @@
+{% load static %}
+<html>
+<head>
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% load icons %}
+
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+<style>
+#wrapper{padding:90px 15px;}
+.card{margin-bottom: 15px; border-radius:0; box-shadow: 0 3px 5px rgba(0,0,0,.1); }
+.header-top{box-shadow: 0 3px 5px rgba(0,0,0,.1)}
+</style>
+{% block header %}{% endblock header %}
+</head>
+<body style="background-color:#F8F7FA;">
+	<nav class="navbar header-top  navbar-expand-lg  navbar-dark" style="background-color: #1E0A3C!important;">
+      <a class="navbar-brand" style="color: #F05537;" href="#"><b>NBO</b></a>
+      <div  id="navbarText">
+        <ul class="navbar-nav ml-md-auto d-md-flex">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'players' %}">Players
+            </a>
+          </li>
+          <li class="nav-item">
+          	<a class="nav-link" >Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Settings</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br>
+    <div class="container-fluid scrollable">
+		{% block content %}{% endblock %}
+		{% block footer %}{% endblock footer %}
+	</div>
+</body>
+</html>

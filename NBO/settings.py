@@ -28,8 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'players'
+LOGOUT_REDIRECT_URL = 'login'
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'onboarding',
+    'django_icons',
     'bootstrap4',
     'rest_framework',
     'rest_framework_swagger',
