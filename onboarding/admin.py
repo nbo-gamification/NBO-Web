@@ -1,8 +1,10 @@
 from django.contrib import admin
 
+from django.contrib.auth.admin import UserAdmin
+
 from onboarding.models import (
-    PlayerUser,
+    NBOUser,
 )
 # Register your models here.
 
-admin.site.register(PlayerUser)
+admin.site.register(NBOUser, UserAdmin)
