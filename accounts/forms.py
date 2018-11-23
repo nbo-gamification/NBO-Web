@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from accounts.email_util import send_email
-from django.contrib.auth.models import User
-
+from accounts.models import NBOUser
+from django.contrib.auth import authenticate
 
 class SignUpForm(UserCreationForm):
     domain = None
@@ -14,8 +14,8 @@ class SignUpForm(UserCreationForm):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = User
-        fields = ('email', 'username', 'password1', 'password2', )
+        model = NBOUser
+        fields = ('email', 'first_name', 'last_name', 'password1', 'password2', )
 
     email = forms.EmailField(
         label=_("Email"),
@@ -60,15 +60,34 @@ class SignUpForm(UserCreationForm):
 
 
 class Loginform(AuthenticationForm):
+    username = forms.CharField(label='Hidden username field', required=False)
 
-    # username = forms.EmailField(
-    #     label='Email',
-    #     max_length=254,
-    #     widget=forms.TextInput(attrs={'autofocus': True}),
-    # )
+    email = forms.EmailField(
+        label='Email',
+        max_length=254,
+        widget=forms.TextInput(attrs={'autofocus': True}),
+    )
 
-    # def validate_email(self, email):
-    #     return email.endswith('@eventbrite.com')
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+    def validate_email(self, email):
+        return email.endswith('@eventbrite.com')
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email is not None and password:
+            self.user_cache = authenticate(self.request, username=email, password=password)
+            if self.user_cache is None:
+                raise self.get_invalid_login_error()
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 
     def confirm_login_allowed(self, user):
         if not user.is_active:
@@ -77,11 +96,11 @@ class Loginform(AuthenticationForm):
                 code='inactive',
             )
 
-        # if not self.validate_email(user.email):
-        #     raise forms.ValidationError(
-        #         self.error_messages['Invalid_domain'],
-        #         code='Invalid_domain',
-        #     )
+        if not self.validate_email(user.email):
+            raise forms.ValidationError(
+                self.error_messages['Invalid_domain'],
+                code='Invalid_domain',
+            )
 
     error_messages = {
         'invalid_login': _(

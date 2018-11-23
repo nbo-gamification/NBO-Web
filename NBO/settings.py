@@ -35,13 +35,13 @@ LOGOUT_REDIRECT_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
     'onboarding',
     'django_icons',
     'bootstrap4',
@@ -88,8 +88,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
 }
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.views.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Password validation
@@ -131,3 +136,5 @@ STATIC_URL = '/static/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+AUTH_USER_MODEL = "accounts.NBOUser"

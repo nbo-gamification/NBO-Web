@@ -6,8 +6,7 @@ from django.contrib.auth import backends
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from accounts.tokens import account_activation_token
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend
+from accounts.models import NBOUser
 
 
 class UserLoginView(LoginView):
@@ -70,3 +69,19 @@ class ActivateAccount(TemplateView):
         context['alert'] = alert
         context['login'] = login
         return context
+
+class EmailAuthBackend(backends.ModelBackend):
+
+    def authenticate(self, request, username=None, password=None):
+        try:
+            user = NBOUser.objects.get(email=username)
+            if user.check_password(password):
+                return user
+        except NBOUser.DoesNotExist:
+            return None
+
+    def get_user(self, user_id):
+        try:
+            return NBOUser.objects.get(pk=user_id)
+        except NBOUser.DoesNotExist:
+            return None
