@@ -1,0 +1,140 @@
+{% extends "header.html" %}
+{% load static %}
+{% load icons %}
+{% block content %}
+<style>
+h3{
+     font-family: 'Josefin Sans', sans-serif;
+}
+
+.box{
+    padding:60px 0px;
+}
+
+.box-part{
+    background:#FFF;
+    border-radius:10px;
+    padding:60px 10px;
+    margin:30px 0px;
+}
+
+.box-part:hover{
+    background:#4183D7;
+}
+
+.box-part:hover .fa , 
+.box-part:hover .title , 
+.box-part:hover .text ,
+.box-part:hover a{
+    color:#FFF;
+    -webkit-transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+}
+
+.text{
+    margin:20px 0px;
+}
+
+.fa{
+     color:#4183D7;
+}
+</style>
+<div class="container-fluid">
+	<div class="row justify-content-center">
+        <div class="col-6">
+            <div class="input-group">
+                <input class="form-control border-secondary py-2" type="search" value="search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">
+                        {% icon 'fas fa-search' %}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'create_activity' %}">
+	        <button class="btn btn-primary float-right">Add Activity</button>
+	    </a>
+	</div>
+</div>
+<div class="container">
+	<br>
+	
+<div class="box">
+    <div class="container-fluid">
+      <div class="row">
+      {% for category_activity in category_activities %}
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">   
+            <div class="box-part text-center">
+                {% if category_activity.activity.activity_type.type_name == 'Connect'%}
+                  <i class="fab fa-connectdevelop"></i>
+                {% endif%}    
+              <div class="title">
+                <h3>{{category_activity.activity.activity_type.type_name}}</h3>
+                <span class="badge badge-secondary">{{category_activity.points_reward}} pts</span>
+              </div>
+                          
+              <div class="text">
+                <span>{{category_activity.activity.get_description}}</span>
+              </div> 
+              <div class="text">
+                <span>{{category_activity.activity.get_description}}</span>
+              </div> 
+          </div> 
+    {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row">
+    {% endif %}
+    </div>
+    {% endfor %} 
+    </div>    
+</div>
+	
+{% if is_paginated %}
+<hr>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %}
+          <!-- If it ain't a search result display, don't append the search query
+               to the URL. -->
+          {% if not search %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+          </li>
+          {% else %}
+          <!-- Append the searched query to the URL, so that on a search results page,
+               the pagination don't revert to listing all the listview items. -->
+            <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        {% endif %} 
+        {% for object in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="{% url 'players' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+        {% endfor %} 
+        {% if page_obj.has_next %}
+          {% if not search %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'players' %}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+</div>
+{% endblock %}

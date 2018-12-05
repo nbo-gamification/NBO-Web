@@ -1,0 +1,40 @@
+{% extends "header.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container">
+  <form method="post">
+      {% csrf_token %}
+      <div class="container">
+	    <div class="row-fluid">
+	      <ul class="thumbnails">
+	      	{% for office in offices%}
+	        <li class="span3">
+	          <div class="thumbnail" style="padding: 0">
+	            <div style="padding:4px">
+	              <img alt="300x200" style="width: 50%" src="{{office.office_imagen}}">
+	            </div>
+	            <div class="caption">
+	              <p><i class="fas fa-map-marker-alt"></i> {{office.office_name}}</p>
+	            </div>
+	          </div>
+	        </li>
+	        {% endfor %}
+	      </ul>
+	    </div>
+	</div>
+      {% bootstrap_form_errors office_form %}
+      {% bootstrap_form office_form %}
+
+      {% bootstrap_form_errors form %}
+      {% bootstrap_form form %}
+
+      {% bootstrap_form_errors activity_form %}
+      {% bootstrap_form activity_form %}
+
+      {% bootstrap_form_errors office_activity_form %}
+      {% bootstrap_form office_activity_form %}
+      <button type="submit" class="btn btn-success">Save</button>
+  </form>
+</div>
+{% endblock %}
