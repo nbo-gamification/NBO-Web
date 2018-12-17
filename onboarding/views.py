@@ -12,7 +12,6 @@ from accounts.models import (
 from onboarding.forms import (
     CategoryOfficeActivityForm,
     ConnectForm,
-    BritelingForm,
     OfficeForm
 )
 from onboarding.models import (
@@ -23,6 +22,7 @@ from onboarding.models import (
     CategoryOfficeActivity,
     ConnectActivity,
     Office,
+    PlayerOfficeProgress,
 )
 from onboarding.onboarding_constants import (
     activity_type_connect,
@@ -44,12 +44,28 @@ class PlayersCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create_player.html'
     success_url = 'players'
 
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
+        context = self.get_context_data()
+        context['office_form'] = OfficeForm
+        return self.render_to_response(context)
+
     def form_valid(self, form):
         valid = super().form_valid(form)
         new_player = form.instance
         players_group = Group.objects.get(name=USER_PLAYER)
         players_group.user_set.add(new_player)
+        self._create_player_progress(new_player)
         return valid
+
+    def _create_player_progress(self, new_player):
+        # Creates a progres for every office selected for this player
+        offices = Office.objects.filter(pk=self.request.POST.get('office'))
+        for office in offices:
+            PlayerOfficeProgress.objects.create(
+                office=office,
+                player=new_player,
+            )
 
 
 class ActivitiesView(LoginRequiredMixin, ListView):
