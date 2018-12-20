@@ -137,3 +137,19 @@ class ConnectActivity(Activity):
 
     def get_description(self):
         return self.instructions
+
+class CategoryOfficeActivityAttempt(models.Model):
+    date = models.DateField(
+        auto_now_add=True,
+    )
+    result = models.BooleanField(
+        default=False
+    )
+    player_category_office_progress = models.ForeignKey(
+        PlayerCategoryOfficeProgress,
+        on_delete=models.CASCADE,
+    )
+    category_office_activity = models.ForeignKey(
+        CategoryOfficeActivity,
+        on_delete=models.CASCADE,
+    )

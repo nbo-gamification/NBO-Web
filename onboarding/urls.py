@@ -10,8 +10,9 @@ from onboarding.views import (
     PlayersView,
 )
 from onboarding.rest_views import (
-    # ActivitiesForCategoryView,
-    # RegisterActivityAttemptView,
+    ActivitiesForCategoryOfficeView,
+    GetAvailableOfficesForUserView,
+    RegisterActivityAttemptView,
     SelectOfficeView,
 )
 
@@ -22,14 +23,18 @@ rest_urls = [
         r'selectOffice/(?P<playerofficeprogress>\d+)$',
         SelectOfficeView.as_view(),
     ),
-    # url(
-    #     r'activitiesForCategory/(?P<id_category_office>\d+)',
-    #     ActivitiesForCategoryView,
-    # ),
-    # url(
-    #     r'registerActivityAttempt/(?P<id_player_office_progress>\d+)',
-    #     RegisterActivityAttemptView,
-    # ),
+    url(
+        r'getOfficesByPlayer/(?P<player_id>\d+)$',
+        GetAvailableOfficesForUserView.as_view(),
+    ),
+    url(
+        r'getActivitiesbyCategoryOffice/(?P<pk>\d+)$',
+        ActivitiesForCategoryOfficeView.as_view(),
+    ),
+    url(
+        r'registerActivityAttempt/',
+        RegisterActivityAttemptView.as_view(),
+    ),
 ]
 
 urlpatterns = [
