@@ -1,10 +1,16 @@
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics
 from onboarding.rest_serializers import (
+    CategoryOfficeActivityAttempt,
+    ConnectActivitySerializer,
     PlayerCategoryOfficeProgressSerializer,
+    PlayerOfficeProgressSerializer,
 )
 from onboarding.models import (
     Category,
     CategoryOffice,
+    ConnectActivity,
     PlayerOfficeProgress,
     PlayerCategoryOfficeProgress,
 )
@@ -42,15 +48,47 @@ class SelectOfficeView(generics.RetrieveAPIView):
                 player_progress.player_category_office_progress = player_category_office_progress
             player_progress.save()
 
-# class ActivitiesForCategoryView(viewsets.ReadOnlyModelViewSet):
-#     """
-#     API endpoint that returns a list of activities to play in client
-#     """
-#     pass
+
+class GetAvailableOfficesForUserView(generics.RetrieveAPIView):
+    """
+    API endpoint that return all posible offices an user can select
+    """
+    lookup_field = 'player_id'
+    serializer_class = PlayerOfficeProgressSerializer
+
+    def get_queryset(self):
+        id_player = int(self.request.parser_context.get('kwargs').get('player_id'))
+        queryset = PlayerOfficeProgress.objects.filter(
+            player_id=id_player,
+        )
+        return queryset
 
 
-# class RegisterActivityAttemptView(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows clients to register an activity attempt
-#     """
-#     pass
+class ActivitiesForCategoryOfficeView(generics.ListAPIView):
+    """
+    API endpoint that returns a list of activities to play in client
+    """
+    serializer_class = ConnectActivitySerializer
+
+    def get_queryset(self):
+        category_office_id = int(self.request.parser_context.get('kwargs').get('pk'))
+        queryset = ConnectActivity.objects.filter(
+            categoryofficeactivity__category_office_id=category_office_id
+        )
+        queryset.exclude(categoryofficeactivity__categoryofficeactivityattempt__isnull=False)
+        return queryset
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset,)
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+
+class RegisterActivityAttemptView(generics.CreateAPIView):
+    """
+    API endpoint that allows clients to register an activity attempt
+    """
+    serializer_class = CategoryOfficeActivityAttempt
