@@ -73,6 +73,7 @@ class Activity(models.Model):
 class CategoryOffice(models.Model):
     total_points_required = models.IntegerField(
         blank=True,
+        default=0,
     )
     is_active = models.BooleanField(default=True)
     office = models.ForeignKey(
@@ -97,17 +98,6 @@ class CategoryOfficeActivity(models.Model):
         on_delete=models.CASCADE,
     )
 
-
-class PlayerCategoryOfficeProgress(models.Model):
-    _total_points = models.IntegerField(
-        default=0,
-    )
-    category_office = models.ForeignKey(
-        CategoryOffice,
-        on_delete=models.CASCADE,
-    )
-
-
 class PlayerOfficeProgress(models.Model):
     player = models.ForeignKey(
         NBOUser,
@@ -117,11 +107,20 @@ class PlayerOfficeProgress(models.Model):
         Office,
         on_delete=models.CASCADE,
     )
-    player_category_office_progress = models.ForeignKey(
-        PlayerCategoryOfficeProgress,
+
+
+class PlayerCategoryOfficeProgress(models.Model):
+    total_points = models.IntegerField(
+        default=0,
+    )
+    category_office = models.ForeignKey(
+        CategoryOffice,
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    )
+    player_office_progress = models.ForeignKey(
+        PlayerOfficeProgress,
+        on_delete=models.CASCADE,
+        related_name='player_category_office_progress'
     )
 
 

@@ -64,7 +64,7 @@ class ConnectActivitySerializer(serializers.ModelSerializer):
 
 
 class CategoryOfficeActivityAttempt(serializers.ModelSerializer):
-    date = serializers.DateField(format='%m/%d/%Y', required=True)
+    date = serializers.DateField(format='%m/%d/%Y', required=False)
 
     class Meta:
         model = CategoryOfficeActivityAttempt
