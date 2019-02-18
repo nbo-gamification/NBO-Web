@@ -49,7 +49,7 @@ class SelectOfficeView(generics.RetrieveAPIView):
             player_progress.save()
 
 
-class GetAvailableOfficesForUserView(generics.RetrieveAPIView):
+class GetAvailableOfficesForUserView(generics.ListAPIView):
     """
     API endpoint that return all posible offices an user can select
     """
