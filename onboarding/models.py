@@ -120,7 +120,7 @@ class PlayerCategoryOfficeProgress(models.Model):
     player_office_progress = models.ForeignKey(
         PlayerOfficeProgress,
         on_delete=models.CASCADE,
-        related_name='player_category_office_progress'
+        related_name='player_category_office_progress',
     )
 
 

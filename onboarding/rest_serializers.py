@@ -52,7 +52,7 @@ class PlayerCategoryOfficeProgressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayerCategoryOfficeProgress
-        fields = ['id', '_total_points', 'category_office', ]
+        fields = ['id', 'total_points', 'category_office', ]
 
 
 class ConnectActivitySerializer(serializers.ModelSerializer):
