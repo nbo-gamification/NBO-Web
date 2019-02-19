@@ -17,18 +17,18 @@ from onboarding.models import (
 from onboarding.onboarding_constants import DEFAULT_POINTS_REQUIRED_FOR_CATEGORY_OFFICE
 
 
-class SelectOfficeView(generics.RetrieveAPIView):
+class SelectOfficeView(generics.ListAPIView):
     """
-    API endpoint that returns player progress and categories he/she can play
+    API endpoint that returns list of player progress in each categories he/she can play
     """
-    lookup_field = 'playerofficeprogress'
+    lookup_field = 'player_office_progress'
     serializer_class = PlayerCategoryOfficeProgressSerializer
 
     def get_queryset(self):
-        id_player_office_progress = int(self.request.parser_context.get('kwargs').get('playerofficeprogress'))
+        id_player_office_progress = int(self.request.parser_context.get('kwargs').get('player_office_progress'))
         self._validate_asigned_progress(id_player_office_progress)
         queryset = PlayerCategoryOfficeProgress.objects.filter(
-            playerofficeprogress__player_category_office_progress=id_player_office_progress,
+            player_office_progress__player_category_office_progress=id_player_office_progress,
         )
         return queryset
 

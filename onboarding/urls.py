@@ -20,7 +20,7 @@ from onboarding.rest_views import (
 rest_urls = [
     url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(
-        r'selectOffice/(?P<playerofficeprogress>\d+)$',
+        r'selectOffice/(?P<player_office_progress>\d+)$',
         SelectOfficeView.as_view(),
     ),
     url(
