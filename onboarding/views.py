@@ -53,6 +53,9 @@ class PlayersCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         valid = super().form_valid(form)
         new_player = form.instance
+        password = new_player.password
+        new_player.set_password(password)
+        new_player.save()
         players_group = Group.objects.get(name=USER_PLAYER)
         players_group.user_set.add(new_player)
         self._create_player_progress(new_player)
