@@ -142,3 +142,7 @@ django_heroku.settings(locals())
 AUTH_USER_MODEL = "accounts.NBOUser"
 
 ACCOUNT_LOGOUT_ON_GET = False
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.SmallNBOUserSerializer',
+}
