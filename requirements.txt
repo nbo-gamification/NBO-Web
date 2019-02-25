@@ -1,5 +1,5 @@
 dj-database-url==0.5.0
-Django==2.1.2
+Django==2.1.5
 django-heroku==0.3.1
 flake8==3.5.0
 gunicorn==19.9.0
@@ -21,3 +21,4 @@ django-bootstrap4==0.0.7
 django-rest-swagger==2.2.0
 djangorestframework==3.9.0
 django-icons==0.2.1
+django-rest-auth==0.9.3
