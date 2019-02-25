@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django_icons',
     'bootstrap4',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'rest_framework_swagger',
 ]
 
@@ -138,3 +140,5 @@ STATIC_URL = '/static/'
 django_heroku.settings(locals())
 
 AUTH_USER_MODEL = "accounts.NBOUser"
+
+ACCOUNT_LOGOUT_ON_GET = False

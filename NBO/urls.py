@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/schema$', schema_view),
     url(r'api/', include(rest_urls)),
+    url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'', include('onboarding.urls')),
 ]
