@@ -22,3 +22,6 @@ django-rest-swagger==2.2.0
 djangorestframework==3.9.0
 django-icons==0.2.1
 django-rest-auth==0.9.3
+django-polymorphic==2.0.3
+django-rest-polymorphic==0.1.8
+PyMySQL==0.9.3

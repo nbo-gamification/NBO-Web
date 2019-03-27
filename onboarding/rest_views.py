@@ -3,14 +3,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from onboarding.rest_serializers import (
     CategoryOfficeActivityAttempt,
-    ConnectActivitySerializer,
+    CategoryOfficeActivitySearchSerializer,
     PlayerCategoryOfficeProgressSerializer,
     PlayerOfficeProgressSerializer,
 )
 from onboarding.models import (
     Category,
     CategoryOffice,
-    ConnectActivity,
+    CategoryOfficeActivity,
     PlayerOfficeProgress,
     PlayerCategoryOfficeProgress,
 )
@@ -21,6 +21,7 @@ class SelectOfficeView(generics.ListAPIView):
     """
     API endpoint that returns list of player progress in each categories he/she can play
     """
+
     lookup_field = 'player_office_progress'
     serializer_class = PlayerCategoryOfficeProgressSerializer
 
@@ -53,6 +54,7 @@ class GetAvailableOfficesForUserView(generics.ListAPIView):
     """
     API endpoint that return all posible offices an user can select
     """
+
     lookup_field = 'player_id'
     serializer_class = PlayerOfficeProgressSerializer
 
@@ -64,18 +66,19 @@ class GetAvailableOfficesForUserView(generics.ListAPIView):
         return queryset
 
 
-class ActivitiesForCategoryOfficeView(generics.ListAPIView):
+class CategoryOfficeActivitiesForCategoryOfficeView(generics.ListAPIView):
     """
-    API endpoint that returns a list of activities to play in client
+    API endpoint that returns a list of CategoryOfficeActivity to play in client
     """
-    serializer_class = ConnectActivitySerializer
+
+    serializer_class = CategoryOfficeActivitySearchSerializer
 
     def get_queryset(self):
         category_office_id = int(self.request.parser_context.get('kwargs').get('pk'))
-        queryset = ConnectActivity.objects.filter(
-            categoryofficeactivity__category_office_id=category_office_id
+        queryset = CategoryOfficeActivity.objects.filter(
+            category_office_id=category_office_id,
+            is_active=True,
         )
-        queryset.exclude(categoryofficeactivity__categoryofficeactivityattempt__isnull=False)
         return queryset
 
     def get_object(self):
@@ -91,4 +94,5 @@ class RegisterActivityAttemptView(generics.CreateAPIView):
     """
     API endpoint that allows clients to register an activity attempt
     """
+
     serializer_class = CategoryOfficeActivityAttempt
