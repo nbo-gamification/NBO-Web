@@ -10,7 +10,7 @@ from onboarding.views import (
     PlayersView,
 )
 from onboarding.rest_views import (
-    ActivitiesForCategoryOfficeView,
+    CategoryOfficeActivitiesForCategoryOfficeView,
     GetAvailableOfficesForUserView,
     RegisterActivityAttemptView,
     SelectOfficeView,
@@ -29,7 +29,7 @@ rest_urls = [
     ),
     url(
         r'getActivitiesbyCategoryOffice/(?P<pk>\d+)$',
-        ActivitiesForCategoryOfficeView.as_view(),
+        CategoryOfficeActivitiesForCategoryOfficeView.as_view(),
     ),
     url(
         r'registerActivityAttempt/',

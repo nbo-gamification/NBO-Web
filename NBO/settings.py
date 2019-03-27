@@ -35,6 +35,7 @@ LOGOUT_REDIRECT_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
+    'polymorphic',
     'accounts',
     'django.contrib.admin',
     'django.contrib.auth',

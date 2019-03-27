@@ -3,12 +3,14 @@ from onboarding.models import (
     ActivityType,
     Category,
     CategoryOffice,
+    CategoryOfficeActivity,
     CategoryOfficeActivityAttempt,
     ConnectActivity,
     Office,
     PlayerCategoryOfficeProgress,
     PlayerOfficeProgress,
 )
+from rest_polymorphic.serializers import PolymorphicSerializer
 
 
 class ActivityTypeSerializer(serializers.ModelSerializer):
@@ -69,3 +71,17 @@ class CategoryOfficeActivityAttempt(serializers.ModelSerializer):
     class Meta:
         model = CategoryOfficeActivityAttempt
         fields = ['date', 'result', 'player_category_office_progress', 'category_office_activity']
+
+
+class ProjectPolymorphicSerializer(PolymorphicSerializer):
+    model_serializer_mapping = {
+        ConnectActivity: ConnectActivitySerializer,
+    }
+
+
+class CategoryOfficeActivitySearchSerializer(serializers.ModelSerializer):
+    activity = ProjectPolymorphicSerializer(required=True)
+
+    class Meta:
+        model = CategoryOfficeActivity
+        fields = ['id', 'points_reward', 'activity', ]

@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import NBOUser
+from polymorphic.models import PolymorphicModel
 
 
 class Office(models.Model):
@@ -56,7 +57,7 @@ class ActivityType(models.Model):
         return self.type_name
 
 
-class Activity(models.Model):
+class Activity(PolymorphicModel):
     is_active = models.BooleanField(default=True)
     category = models.ManyToManyField(
         Category,
