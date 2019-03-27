@@ -85,6 +85,7 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         'category',
     ]
     template_name = 'create_activity.html'
+    success_url = 'activities'
 
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
