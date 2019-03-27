@@ -20,6 +20,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from onboarding.urls import rest_urls
 from rest_framework import permissions
+from accounts.rest_views import CustomLoginView
 
 
 schema_view = get_schema_view(
@@ -36,6 +37,7 @@ urlpatterns = [
     url(r'^api/schema$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
     url(r'api/', include(rest_urls)),
+    url(r'rest-auth/login', CustomLoginView.as_view(), name='custom_login'),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'', include('onboarding.urls')),
