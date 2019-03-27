@@ -94,4 +94,5 @@ class RegisterActivityAttemptView(generics.CreateAPIView):
     """
     API endpoint that allows clients to register an activity attempt
     """
+
     serializer_class = CategoryOfficeActivityAttempt
