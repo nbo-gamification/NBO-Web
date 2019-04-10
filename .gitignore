@@ -98,3 +98,6 @@ db.sqlite3
 # CSV files for testing
 test csv
 .csv
+
+# Static files
+staticfiles/

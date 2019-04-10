@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load compress %}
+  <html>
+    <head>
+     <title>ES6 Test</title>
+    </head>
+    <body>
+      <h1>Welcome to the jungle</h1>
+      <div id="root"></div>
+     
+     {% compress js %}
+      <script src="/staticfiles/src/index.js"></script>
+     {% endcompress %}
+    </body>
+   </html>

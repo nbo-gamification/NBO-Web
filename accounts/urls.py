@@ -5,6 +5,9 @@ from accounts.views import (
     ActivateAccount,
     RegistrationMail,
 )
+from accounts.react_views import (
+    ReactUserLoginView,
+)
 
 urlpatterns = [
     url(r'^login/$', UserLoginView.as_view(), name='login'),

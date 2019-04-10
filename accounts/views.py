@@ -11,7 +11,7 @@ from accounts.models import NBOUser
 
 class UserLoginView(LoginView):
     form_class = Loginform
-    template_name = 'login.html'
+    template_name = 'index.html'
 
 
 class Registration(CreateView):

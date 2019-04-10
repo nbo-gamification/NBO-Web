@@ -16,6 +16,9 @@ import pymysql
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BACKEND_DIR = BASE_DIR  # rename variable for clarity
+FRONTEND_DIR = os.path.abspath(
+    os.path.join(BACKEND_DIR, 'nbo_front'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,8 +27,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '(6vwgx8o%a3lj*73bd@a!@8cj6ml+3qjjz@-syspy9pr(5_z0z'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# modify the definition of DEBUG and ALLOWED_HOSTS
+DEBUG = os.environ.get('DJANGO_ENV') == 'development'
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'onboarding',
     'django_icons',
@@ -52,6 +56,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'rest_framework_swagger',
+    'compressor',
+    'compressor_toolkit',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'NBO.urls'
@@ -70,7 +77,7 @@ ROOT_URLCONF = 'NBO.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(FRONTEND_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -166,3 +173,9 @@ REST_FRAMEWORK = {
 }
 
 pymysql.install_as_MySQLdb()
+
+STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'build', 'static')]
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage')
+STATIC_ROOT = os.path.join(BACKEND_DIR, 'static')
+WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')

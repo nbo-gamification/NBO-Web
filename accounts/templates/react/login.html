@@ -1,0 +1,16 @@
+{% extends "../base.html" %}
+
+{% block inner %}
+    <div id="react">
+        <!-- Contents get replaced by mounted React.Component -->
+        <i class="fa fa-lg fa-spinner fa-spin"></i><br><br>
+        <i class="pending">Loading components...</i><br><br>
+    </div>
+
+    <script>
+        window.props = {{props}};
+        window.react_mount = document.getElementById('react');
+    </script>
+    <script src="/static/src/{{component}}"></script>
+    <p>Hola</p>
+{% endblock %}
