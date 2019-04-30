@@ -81,6 +81,7 @@ celerybeat-schedule
 # virtualenv
 venv/
 ENV/
+envname/
 
 # Spyder project settings
 .spyderproject
@@ -98,3 +99,7 @@ db.sqlite3
 # CSV files for testing
 test csv
 .csv
+
+# Node libraries
+node_modules/
+
