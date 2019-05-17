@@ -7,13 +7,12 @@ function getRoutes(store) {
   return [{path: "/login", url: "/", isExact: true, params: {}} ]
 }
 
-export default function render (app, props) {
-  const context = {
-    'props': props
-  };
+export default function render (params) {
+  const {app, props, ...context } = params;
+  
   const markup = (
-    <StaticRouter context={context} location={app}>
-      <App />
+    <StaticRouter context={context} location={{ pathname: app }}>
+      <App {...props}/>
     </StaticRouter>
   );
 

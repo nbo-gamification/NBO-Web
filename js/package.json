@@ -16,6 +16,8 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "redux-form": "8.1.0",
+    "eventbrite_design_system": "http://packages.evbops.com:8889/package/eventbrite_design_system/77.1.0"
   }
 }

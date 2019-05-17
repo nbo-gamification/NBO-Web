@@ -25,13 +25,8 @@ app.post('/', function (req, res) {
 })
 
 app.post('/render', function (req, res) {
-  // We know we'll need a path and the data for our initial state,
-  // so let's save this stuff first
-  const app = req.body.url
-  // This function massages data into the shape of our Redux store
-  const props = req.body.props 
-  
-  const result = render(app, props)
+  const body = req.body 
+  const result = render(body)
 
   res.json({
     'html': result.html,
