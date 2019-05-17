@@ -7,10 +7,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from accounts.tokens import account_activation_token
 from accounts.models import NBOUser
-import requests
-from django.conf import settings
-from django.shortcuts import render
-from accounts.serializers import SmallNBOUserSerializer
+from NBO.react_views import ReactTemplateView
 
 
 class UserLoginView(LoginView):
@@ -91,39 +88,6 @@ class EmailAuthBackend(backends.ModelBackend):
             return None
 
 
-
-def sandwich(request, id=1):
-    sandwich_data = {}
-    # The magic happens in our _react_render helper function
-    return _react_render({'sandwich': sandwich_data}, request)
-
-
-def _react_render(content, request):
-    # Let's grab our user's info if she has any
-    if request.user.is_authenticated:
-        serializer = SmallNBOUserSerializer(request.user)
-        user = serializer.data
-    else:
-        user = {}
-
-    # Here's what we've got so far
-    render_assets = {
-        # 'url': request.path_info,
-        'url': '/',
-        'user': user
-    }
-    # Now we add the sandwich. We use the Dict#update method so that the
-    # key could be anything, like pizza or cake or burger.
-    render_assets.update(content)
-
-    try:
-        # All right, let's send it! Note that we set the content type to json.
-        res = requests.post(settings.RENDER_SERVER_BASE_URL + '/render',
-                            json=render_assets,
-                            headers={'content_type': 'application/json'})
-        rendered_payload = res.json()
-    except Exception as e:
-        print (e)
-    # Beautiful! Let's render this stuff into our base template
-    print (rendered_payload)
-    return render(request, 'login.html', rendered_payload)
+class ReactLoginView(ReactTemplateView):
+    app = 'login'
+    template_name = 'login.html'

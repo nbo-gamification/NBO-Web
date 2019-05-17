@@ -4,11 +4,11 @@ from accounts.views import (
     UserLoginView,
     ActivateAccount,
     RegistrationMail,
-    sandwich,
+    ReactLoginView,
 )
 
 urlpatterns = [
-    url(r'^login/$', sandwich, name='login'),
+    url(r'^login/$', ReactLoginView.as_view(), name='login'),
     # url(r'^login/$', UserLoginView.as_view(), name='login'),
     url(r'^signup/$', Registration.as_view(), name='signup'),
     url(r'^signup/email$', RegistrationMail.as_view(), name='signup_email'),
